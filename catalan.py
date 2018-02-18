@@ -9,19 +9,14 @@ db = connection[teamname]
 collection = db['catalan']
 
 filename = "catalan.json"
-j = open(filename, 'r')
 
-def parse_json (j):
-    print type(j)
-    return json.loads(j.replace('\r\n', ''))
-    '''
-    results = json['result']
-    for line in result:
-        print line
-        print " "
-    '''
+def parse_json (filename):
+    
+    with open(filename) as json_data:
+       d = json.load(json_data)
+    return d['result']
 
-print parse_json(j)
+pprint(parse_json(filename))
 
 #collection.insert_one()
 
