@@ -1,3 +1,15 @@
+'''
+Name: Catalan Historical Events Dataset
+Our dataset contains the date and the event that occured on that date in the Catalan language. For example, the second entry of this dataset states that in the year -300, the first documented meteorological forecast was written by Teofrasto. 
+
+Hyperlink: 
+http://www.vizgr.org/historical-events/search.php?format=json&begin_date=-3000000&end_date=20151231&lang=ca
+
+Import mechanism:
+We made each event a separate collection in the Cieres database.
+
+'''
+
 import pymongo
 import json
 from pprint import pprint
