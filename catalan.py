@@ -20,20 +20,37 @@ connection = pymongo.MongoClient("homer.stuy.edu")
 db = connection[teamname]
 collection = db['catalan']
 
-filename = "catalan.json"
+filename = "test.json"
+f = open(filename,'r').read()
 
-def parse_json (filename):
-    
-    with open(filename) as json_data:
-       d = json.load(json_data)
-    return d['result']
+def join_duplicate_keys(ordered_pairs):
+    d = {}
+    for k, v in ordered_pairs:
+        if k in d:
+           if type(d[k]) == list:
+               d[k].append(v)
+           else:
+               newlist = []
+               newlist.append(d[k])
+               newlist.append(v)
+               d[k] = newlist
+        else:
+           d[k] = v
+    return d
 
-pprint(parse_json(filename))
+newdict = json.loads(f, object_pairs_hook=join_duplicate_keys)
+
+el = newdict['result']
+
+print el
+
+
+
+
+#Adding to Database
+#collection.insert_many(el)
 
 '''
-#Adding to Database
-collection.insert_many(parse_json) #parse_json should return list of documents and each new document is defined by the "event" key. i.e. "event": {"date": "-300", "description": "Auge de Meroe", "lang": "ca", "granularity": "year"} and "event": {"date": "-300", "description": "Primera publicaci\u00f3 d'una previsi\u00f3 meteorol\u00f2gica documentada (obra de Teofrast)" will be two separate documents
-
 #Searching by date
 def date(d):
     c = collection.find({'event.date':d})
