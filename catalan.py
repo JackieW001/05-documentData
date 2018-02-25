@@ -13,14 +13,17 @@ We made each event a separate collection in the Cieres database.
 import pymongo
 import json
 from pprint import pprint
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
-teamname = 'Cireres'
+teamname = 'wooJ-tabassumM'
 
 connection = pymongo.MongoClient("homer.stuy.edu")
 db = connection[teamname]
 collection = db['catalan']
 
-filename = "test.json"
+filename = "catalan.json"
 f = open(filename,'r').read()
 
 def join_duplicate_keys(ordered_pairs):
@@ -42,7 +45,22 @@ newdict = json.loads(f, object_pairs_hook=join_duplicate_keys)
 
 el = newdict['result']
 
-print el
+def updateDB(event_list):
+    for x in el['event']:
+        #print x
+        date = x['date']
+        #print date
+        description = x['description']
+        #print description
+        lang = x['lang']
+        #print lang
+        granularity = x['granularity']
+        #print granularity
+        db.collection.insert({'date': date, "description": description, 'lang': lang, 'granularity': granularity})
+        print "added successfully"
+
+#print el
+updateDB(el)
 
 
 
